@@ -9,6 +9,7 @@ import SwiftUI
 #Preview {
     ContentView()
 }
+// making a change
 struct ContentView: View{
     // creates content view that is the structure for the app seen by the user
     @State var currentEmojiSet: [String] = flags
