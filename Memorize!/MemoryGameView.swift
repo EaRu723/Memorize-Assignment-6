@@ -10,106 +10,85 @@ import SwiftUI
     MemoryGameView()
 }
 struct MemoryGameView: View{
-    // creates content view that is the structure for the app seen by the user
-    @State var currentEmojiSet: [String] = flags
-    // creates variable that toggles between emoji types
+    // Observable ViewModel for memory game logic and state management
+    @ObservedObject var viewModel: memoryGameVM
+    
+    init(viewModel: memoryGameVM){
+        self.viewModel = viewModel
+    }
+    // initialize theme to be flag
+   init(theme: memoryGameVM.GameTheme = .flag) {
+       self.viewModel = memoryGameVM(theme:theme)
+   }
+    // creates main view body
     var body: some View{
-        // creates body withing content view
         VStack{
-            title
+            Title
+            Score
             ScrollView{
                     cards
+                    .animation(.default, value: viewModel.cards)
             }
-            gameModeToggle
+            Button("New Game"){
+                startNewGame()
             }
+        }
+        .padding()
         // stacks the app vertically
-        }
+    }
+    // grid view of cards
     var cards: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum:50))]) {
-            ForEach(currentEmojiSet.indices, id: \.self){index in CardView(content: currentEmojiSet[index])
-                    .aspectRatio(2/3, contentMode: .fit)
-            }
-        }
-    }
-    var gameModeToggle: some View{
-        HStack{
-            Spacer()
-            flagButton
-            Spacer()
-            animalButton
-            Spacer()
-            foodButton
-            Spacer()
-            }
-        // stacks the buttons horizontally
-        .imageScale(.large)
-        .font(.system(size : 30))
-    }
-    func gameModeToggle(dictionaryLabel: String, icon: String, label: String) -> some View {
-        Button(action: {currentEmojiSet = randomize(array : emojiDictionary[dictionaryLabel]!)}, label: {
-            VStack{
-                Image(systemName: icon)
-                Text(label)
-                .font(.system(size : 16))}
-        })
-    }
-    var flagButton: some View{
-        gameModeToggle(dictionaryLabel: "flags", icon: "flag.circle", label: "Flags")
-    }
-    var animalButton: some View{
-        gameModeToggle(dictionaryLabel: "animals", icon: "pawprint.circle", label: "Animals")
-    }
-    var foodButton: some View{
-        gameModeToggle(dictionaryLabel: "foods", icon: "fork.knife.circle", label: "Foods")
-    }
-
-}
-var title: some View{
-    Text("Memorize!").font(.title).bold()
-}
-let flagEmojis: [String] = ["🇺🇸","🇩🇿","🇩🇰","🇩🇪","🇷🇴","🇮🇹","🇮🇱","🇯🇲","🇮🇩","🇳🇬","🇲🇽","🇯🇵","🇮🇳","🇰🇷","🇬🇭","🇭🇷", "🇨🇺", "🇨🇦"]
-let animalEmojis: [String] = ["🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼","🐻‍❄️","🐨","🐯","🦁","🐮","🐷","🐸","🐵", "🐥", "🐙"]
-let foodEmojis: [String] =  ["🍏","🍎","🍐","🍊","🍋","🍌","🍉","🍇","🍓","🫐","🍈","🍒","🍑","🥭","🍍","🥥", "🥑", "🥕"]
-let redEmojis: [String] = ["🉐","㊙️","㊗️","🈴","🈵","🈹","🈹","🈲","🅰️","🅱️","🆎","🆑","🅾️","🆘","❌","🛑", "📛", "💯"]
-let orangeEmojis: [String] = ["🉑","☢️","☣️","📴","📳","🈶","🈚️","🈸","🈺","🈷️","✴️","🆚"]
-let purpleEmojis: [String] =  ["💟","☮️","✝️","☪️","🕉️","☸️","🪯","✡️","🔯","🕎","☯️","☦️","🛐","⛎","♈️","♉️", "♊️", "♋️"]
-// creates arrays for different emoji types
-func double(array : [String]) -> [String] {
-    let doubledArray = array + array
-    return doubledArray
-}
-func randomize(array : [String]) -> [String] {
-    var array = array
-    array.shuffle()
-    return array
-}
-let flags = double(array: flagEmojis)
-let animals = double(array: animalEmojis)
-let foods = double(array: foodEmojis)
-
-var emojiDictionary: [String: [String]] = [
-    "flags" : flags,
-    "animals" : animals,
-    "foods" : foods,
-]
-// created dictionary combining emoji arrays
-struct CardView: View{
-    let content: String
-    @State var isFaceUp = false
-    
-    var body: some View{
-            ZStack {
-                let base = RoundedRectangle(cornerRadius: 12.0)
-                Group{
-                    base.foregroundColor(Color(red: 219.0, green: 237, blue: 255))
-                    base.strokeBorder(Color.black, lineWidth: 2)
-                    Text(content).font(.largeTitle)
+        LazyVGrid(columns: [GridItem(.adaptive(minimum:70), spacing: 0)], spacing: 0) {
+            ForEach(viewModel.cards) { card in 
+                CardView(card: card, themeColor: viewModel.currentTheme.color).aspectRatio(2/3, contentMode: .fit).padding(4).onTapGesture {
+                viewModel.choose(card)
+                    }
                 }
-                .opacity(isFaceUp ? 1 : 0)
-                base.foregroundColor(.red).opacity(isFaceUp ? 0 : 1)
             }
-        .onTapGesture {
-            isFaceUp = !isFaceUp
+        .foregroundColor(viewModel.currentTheme.color)
+        }
+
+    // view for each individual card
+    struct CardView: View{
+        let card: MemoryGameModel<String>.Card
+        var themeColor: Color
+        
+        init(card: MemoryGameModel<String>.Card, themeColor: Color) {
+            self.card = card
+            self.themeColor = themeColor
+        }
+        
+        // the body of the card view
+        var body: some View{
+                ZStack {
+                    let base = RoundedRectangle(cornerRadius: 13.0)
+                    Group{
+                        base.foregroundColor(.white)
+                        base.strokeBorder(themeColor, lineWidth: 2)
+                        Text(card.content)
+                            .font(.system(size: 150))
+                            .minimumScaleFactor(0.01)
+                            .aspectRatio(contentMode: .fit)
+                    }
+                    .opacity(card.isFaceUp ? 1 : 0)
+                    base.fill().opacity(card.isFaceUp ? 0 : 1)
+                }
+                .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)
         }
     }
+    func startNewGame() {
+        viewModel.startNewGame()
+    }
+    var Title: some View {
+        Text(viewModel.currentTheme.name)
+            .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+            .foregroundColor(viewModel.currentTheme.color)
+    }
+    var Score: some View {
+        Text("Score \(viewModel.currentScore)")
+            .font(.headline)
+            .foregroundColor(viewModel.currentTheme.color)
+    }
 }
+
