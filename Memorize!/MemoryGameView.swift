@@ -7,10 +7,9 @@
 
 import SwiftUI
 #Preview {
-    ContentView()
+    MemoryGameView()
 }
-// making a change
-struct ContentView: View{
+struct MemoryGameView: View{
     // creates content view that is the structure for the app seen by the user
     @State var currentEmojiSet: [String] = flags
     // creates variable that toggles between emoji types
@@ -71,6 +70,9 @@ var title: some View{
 let flagEmojis: [String] = ["🇺🇸","🇩🇿","🇩🇰","🇩🇪","🇷🇴","🇮🇹","🇮🇱","🇯🇲","🇮🇩","🇳🇬","🇲🇽","🇯🇵","🇮🇳","🇰🇷","🇬🇭","🇭🇷", "🇨🇺", "🇨🇦"]
 let animalEmojis: [String] = ["🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼","🐻‍❄️","🐨","🐯","🦁","🐮","🐷","🐸","🐵", "🐥", "🐙"]
 let foodEmojis: [String] =  ["🍏","🍎","🍐","🍊","🍋","🍌","🍉","🍇","🍓","🫐","🍈","🍒","🍑","🥭","🍍","🥥", "🥑", "🥕"]
+let redEmojis: [String] = ["🉐","㊙️","㊗️","🈴","🈵","🈹","🈹","🈲","🅰️","🅱️","🆎","🆑","🅾️","🆘","❌","🛑", "📛", "💯"]
+let orangeEmojis: [String] = ["🉑","☢️","☣️","📴","📳","🈶","🈚️","🈸","🈺","🈷️","✴️","🆚"]
+let purpleEmojis: [String] =  ["💟","☮️","✝️","☪️","🕉️","☸️","🪯","✡️","🔯","🕎","☯️","☦️","🛐","⛎","♈️","♉️", "♊️", "♋️"]
 // creates arrays for different emoji types
 func double(array : [String]) -> [String] {
     let doubledArray = array + array
