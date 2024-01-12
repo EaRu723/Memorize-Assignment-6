@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		65003F762B066D49001E693D /* memoryGameVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65003F752B066D49001E693D /* memoryGameVM.swift */; };
 		65003F782B0671BD001E693D /* MemoryGameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65003F772B0671BD001E693D /* MemoryGameModel.swift */; };
+		655CAD212B509A7900C31729 /* ThemeStoreVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655CAD202B509A7900C31729 /* ThemeStoreVM.swift */; };
+		655CAD232B50A92A00C31729 /* UnitilityExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655CAD222B50A92A00C31729 /* UnitilityExtensions.swift */; };
+		655CAD252B50AFAA00C31729 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655CAD242B50AFAA00C31729 /* File.swift */; };
+		655CAD272B50AFBA00C31729 /* ThemeChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655CAD262B50AFBA00C31729 /* ThemeChooser.swift */; };
+		655CAD292B50B56900C31729 /* ThemeEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655CAD282B50B56900C31729 /* ThemeEditor.swift */; };
 		65E9DDD62B00687E000D514D /* Memorize_App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E9DDD52B00687E000D514D /* Memorize_App.swift */; };
 		65E9DDD82B00687E000D514D /* MemoryGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E9DDD72B00687E000D514D /* MemoryGameView.swift */; };
 		65E9DDDA2B00687F000D514D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 65E9DDD92B00687F000D514D /* Assets.xcassets */; };
@@ -18,6 +23,11 @@
 /* Begin PBXFileReference section */
 		65003F752B066D49001E693D /* memoryGameVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = memoryGameVM.swift; sourceTree = "<group>"; };
 		65003F772B0671BD001E693D /* MemoryGameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryGameModel.swift; sourceTree = "<group>"; };
+		655CAD202B509A7900C31729 /* ThemeStoreVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeStoreVM.swift; sourceTree = "<group>"; };
+		655CAD222B50A92A00C31729 /* UnitilityExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitilityExtensions.swift; sourceTree = "<group>"; };
+		655CAD242B50AFAA00C31729 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		655CAD262B50AFBA00C31729 /* ThemeChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeChooser.swift; sourceTree = "<group>"; };
+		655CAD282B50B56900C31729 /* ThemeEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeEditor.swift; sourceTree = "<group>"; };
 		65E9DDD22B00687E000D514D /* Memorize!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Memorize!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65E9DDD52B00687E000D514D /* Memorize_App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memorize_App.swift; sourceTree = "<group>"; };
 		65E9DDD72B00687E000D514D /* MemoryGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryGameView.swift; sourceTree = "<group>"; };
@@ -39,6 +49,8 @@
 		65E9DDC92B00687E000D514D = {
 			isa = PBXGroup;
 			children = (
+				655CAD242B50AFAA00C31729 /* File.swift */,
+				655CAD222B50A92A00C31729 /* UnitilityExtensions.swift */,
 				65E9DDD42B00687E000D514D /* Memorize! */,
 				65E9DDD32B00687E000D514D /* Products */,
 			);
@@ -59,6 +71,9 @@
 				65E9DDD72B00687E000D514D /* MemoryGameView.swift */,
 				65003F772B0671BD001E693D /* MemoryGameModel.swift */,
 				65003F752B066D49001E693D /* memoryGameVM.swift */,
+				655CAD202B509A7900C31729 /* ThemeStoreVM.swift */,
+				655CAD262B50AFBA00C31729 /* ThemeChooser.swift */,
+				655CAD282B50B56900C31729 /* ThemeEditor.swift */,
 				65E9DDD92B00687F000D514D /* Assets.xcassets */,
 				65E9DDDB2B00687F000D514D /* Preview Content */,
 			);
@@ -144,7 +159,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				65003F782B0671BD001E693D /* MemoryGameModel.swift in Sources */,
+				655CAD292B50B56900C31729 /* ThemeEditor.swift in Sources */,
+				655CAD232B50A92A00C31729 /* UnitilityExtensions.swift in Sources */,
+				655CAD252B50AFAA00C31729 /* File.swift in Sources */,
+				655CAD272B50AFBA00C31729 /* ThemeChooser.swift in Sources */,
 				65E9DDD82B00687E000D514D /* MemoryGameView.swift in Sources */,
+				655CAD212B509A7900C31729 /* ThemeStoreVM.swift in Sources */,
 				65E9DDD62B00687E000D514D /* Memorize_App.swift in Sources */,
 				65003F762B066D49001E693D /* memoryGameVM.swift in Sources */,
 			);

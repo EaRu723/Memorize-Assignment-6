@@ -9,11 +9,12 @@ import SwiftUI
 
 @main
 struct Memorize_App: App {
-    @StateObject var game = memoryGameVM(theme: .flag)
+    @StateObject var themeStoreVM = ThemeStoreVM(named: "default")
     
     var body: some Scene {
         WindowGroup {
-            MemoryGameView(viewModel: game)
+            ThemeChooser()
+                .environmentObject(themeStoreVM)
         }
     }
 }

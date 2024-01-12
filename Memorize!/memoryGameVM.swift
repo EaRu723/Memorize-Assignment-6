@@ -9,57 +9,32 @@ import Foundation
 import SwiftUI
 
 class memoryGameVM: ObservableObject {
-    // structure to hold theme properties
-    struct Theme {
-        var name: String
-        var emojis: [String]
-        var numberOfPairs: Int
-        var color: Color
-    }
-    
-    // enum of cases for different theme variables
-    enum GameTheme: String, CaseIterable{
-        case flag, animal, food, red, orange, purple
-        
-        var theme: Theme {
-            switch self {
-            case .flag:
-                return Theme(name: "Flags", emojis: ["🇺🇸","🇩🇿","🇩🇰","🇩🇪","🇷🇴","🇮🇹","🇮🇱","🇯🇲","🇮🇩","🇳🇬","🇲🇽","🇯🇵","🇮🇳","🇰🇷","🇬🇭","🇭🇷", "🇨🇺", "🇨🇦"], numberOfPairs: 18, color: .blue)
-            case .animal:
-                return Theme(name: "Animals", emojis: ["🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼","🐻‍❄️","🐨","🐯","🦁","🐮","🐷","🐸","🐵", "🐥", "🐙"], numberOfPairs: 18, color: .green)
-            case .food:
-                return Theme(name: "Foods", emojis: ["🍏","🍎","🍐","🍊","🍋","🍌","🍉","🍇","🍓","🫐","🍈","🍒","🍑","🥭","🍍","🥥", "🥑", "🥕"], numberOfPairs: 18, color: .yellow)
-            case .red:
-                return Theme(name: "Red", emojis: ["🉐","㊙️","㊗️","🈴","🈵","🈹","🈹","🈲","🅰️","🅱️","🆎","🆑","🅾️","🆘","❌","🛑", "📛", "💯"], numberOfPairs: 18, color: .red)
-            case .orange:
-                return Theme(name: "Orange", emojis: ["🉑","☢️","☣️","📴","📳","🈶","🈚️","🈸","🈺","🈷️","✴️","🆚"], numberOfPairs: 12, color: .orange)
-            case .purple:
-                return Theme(name: "Purple", emojis: ["💟","☮️","✝️","☪️","🕉️","☸️","🪯","✡️","🔯","🕎","☯️","☦️","🛐","⛎","♈️","♉️", "♊️", "♋️"], numberOfPairs: 18, color: .purple)
-            }
-        }
-    }
+    @Published private var model: MemoryGameModel<String>
+    let chosenTheme: Theme
+
     
     // factory method to crate a new memory game
-    private static func createMemoryGame(with emojis: [String], numberOfPairs: Int) -> MemoryGameModel<String> {
-        return MemoryGameModel(numberOfPairsOfCards: numberOfPairs) {
-            pairIndex in if pairIndex < emojis.count {
-                return emojis[pairIndex]
-            }
-            else{ return "🤯⁉️"
-            }
+    static func createMemoryGame(of theme: Theme) -> MemoryGameModel<String> {
+        let emojis = theme.emojis.map { String($0) }.shuffled()
+        
+        return MemoryGameModel(numberOfPairsOfCards: theme.numberOfPairs) { index in
+        emojis[index]
         }
     }
     
-    // memory game model marked as published to update views as they change
-    @Published private var model: MemoryGameModel<String>
+//    private static func createMemoryGame(with emojis: [String], numberOfPairs: Int) -> MemoryGameModel<String> {
+//        return MemoryGameModel(numberOfPairsOfCards: numberOfPairs) {
+//            pairIndex in if pairIndex < emojis.count {
+//                return emojis[pairIndex]
+//            }
+//            else{ return "🤯⁉️"
+//            }
+//        }
+//    }
     
-    var currentTheme: Theme
-    
-    init (theme: GameTheme) {
-        let selectedTheme = theme.theme
-        self.currentTheme = selectedTheme
-        self.model = memoryGameVM.createMemoryGame(with: selectedTheme.emojis, numberOfPairs: selectedTheme.numberOfPairs)
-        
+    init(theme: Theme) {
+        chosenTheme = theme
+        model = memoryGameVM.createMemoryGame(of: chosenTheme)
     }
     // computed property to access the cards in the model
     var cards: Array<MemoryGameModel<String>.Card> {
@@ -79,12 +54,6 @@ class memoryGameVM: ObservableObject {
         model.choose(card)
     }
     func startNewGame(){
-        let allThemes = GameTheme.allCases
-        let randomTheme = allThemes.randomElement() ?? .flag
-        
-        let selectedTheme = randomTheme.theme
-        self.currentTheme = selectedTheme
-        self.model = memoryGameVM.createMemoryGame(with: selectedTheme.emojis, numberOfPairs: selectedTheme.numberOfPairs)
-        model.shuffle()
+        model = memoryGameVM.createMemoryGame(of: chosenTheme)
     }
 }

@@ -8,7 +8,7 @@
 import Foundation
 
 struct MemoryGameModel<CardContent> where CardContent: Equatable {
-    private(set) var cards: Array<Card>
+    private(set) var cards: [Card]
     var score = 0 // initialize score as 0
     
     // initialize a new memory game with a specific number of cards
